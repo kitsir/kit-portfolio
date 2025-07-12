@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit Visaskamin - Portfolio CS (Ferrari Theme)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom font for a clean look */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Smooth scroll for navigation */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom animation for fade-in effect */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-down {
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        /* Custom shadow for hover effects with yellow accent */
+        .shadow-yellow-accent-hover:hover {
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4); /* yellow-400 with opacity */
+        }
+
+        /* Responsive navigation specific styles */
+        .mobile-menu {
+            display: none; /* Hidden by default */
+        }
+        .mobile-menu.active {
+            display: block; /* Shown when active */
+        }
+
+        /* Hide scrollbar for body on mobile when menu is open */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        /* Custom scrollbar for horizontal project section */
+        .horizontal-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .horizontal-scroll-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .horizontal-scroll-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Modal specific styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: hidden; /* Prevent scroll on modal itself */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain; /* Ensures the image fits within the modal without cropping */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px; /* Increased height for caption */
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Navigation buttons for modal */
+        .modal-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            z-index: 1001; /* Above modal content */
+        }
+
+        .modal-nav-button:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        #prevButton {
+            left: 20px;
+        }
+
+        #nextButton {
+            right: 20px;
+        }
+
+        /* Add animation for modal */
+        .modal-content, #modalCaption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        /* Gallery Card specific styles */
+        #gallery-card-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1000px; /* Increased max width for the card */
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Soft shadow for the card */
+            /* Removed border: 4px solid #ef4444; */
+        }
+
+        #gallery-main-image {
+            width: 100%;
+            height: auto; /* Allow height to adjust based on aspect ratio */
+            max-height: 700px; /* Increased max height to prevent excessively tall images */
+            object-fit: contain; /* Ensure the entire image is visible within its container */
+            border-radius: 8px; /* Slightly smaller border-radius for the image inside */
+            cursor: pointer;
+            transition: opacity 0.3s ease-in-out; /* Smooth transition for image change */
+        }
+
+        /* Navigation buttons for the gallery card */
+        .gallery-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            font-size: 22px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+
+        .gallery-nav-button:hover {
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        #prevGalleryBtn {
+            left: 15px;
+        }
+
+        #nextGalleryBtn {
+            right: 15px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header Section - Ferrari Red with subtle dark gradient -->
+    <header class="bg-gradient-to-r from-red-700 to-red-900 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="text-left">
+                <h1 class="text-3xl md:text-4xl font-extrabold leading-tight">
+                    <a href="#" class="text-white no-underline hover:text-red-200 transition duration-300">Kit Visaskamin</a>
+                </h1>
+                <p class="text-sm md:text-base opacity-90">กิจ วิเศษคามิน</p>
+            </div>
+            <!-- Hamburger menu icon for small screens -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            <!-- Full navigation for medium and larger screens -->
+            <nav class="hidden md:block">
+                <!-- Added flex-nowrap to prevent wrapping on smaller screens -->
+                <ul class="flex space-x-4 md:space-x-6 text-base md:text-lg flex-nowrap">
+                    <li><a href="#about" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-user-circle mr-2 text-yellow-400"></i>About Me</a></li>
+                    <li><a href="#education" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-graduation-cap mr-2 text-yellow-400"></i>การศึกษา</a></li>
+                    <li><a href="#skills" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-code mr-2 text-yellow-400"></i>ทักษะ</a></li>
+                    <li><a href="#activities" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-trophy mr-2 text-yellow-400"></i>กิจกรรม</a></li>
+                    <li><a href="#projects" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-project-diagram mr-2 text-yellow-400"></i>โปรเจกต์</a></li>
+                    <li><a href="#certificates" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-award mr-2 text-yellow-400"></i>ใบประกาศ</a></li>
+                    <li><a href="#gallery" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-images mr-2 text-yellow-400"></i>แกลเลอรี</a></li>
+                    <li><a href="#contact" class="hover:text-red-200 transition duration-300 flex items-center whitespace-nowrap"><i class="fas fa-envelope mr-2 text-yellow-400"></i>ติดต่อ</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Mobile menu (hidden by default, toggled by JS) -->
+        <nav id="mobile-menu" class="mobile-menu md:hidden bg-red-800 py-4 px-2 mt-2 rounded-lg shadow-md">
+            <ul class="flex flex-col space-y-3 text-base">
+                <li><a href="#about" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-user-circle mr-2 text-yellow-400"></i>About Me</a></li>
+                <li><a href="#education" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-graduation-cap mr-2 text-yellow-400"></i>การศึกษา</a></li>
+                <li><a href="#skills" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-code mr-2 text-yellow-400"></i>ทักษะ</a></li>
+                <li><a href="#activities" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-trophy mr-2 text-yellow-400"></i>กิจกรรม</a></li>
+                <li><a href="#projects" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-project-diagram mr-2 text-yellow-400"></i>โปรเจกต์</a></li>
+                <li><a href="#certificates" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-award mr-2 text-yellow-400"></i>ใบประกาศ</a></li>
+                <li><a href="#gallery" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-images mr-2 text-yellow-400"></i>แกลเลอรี</a></li>
+                <li><a href="#contact" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-envelope mr-2 text-yellow-400"></i>ติดต่อ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section - Bold Red with original background -->
+    <section id="hero" class="relative text-white py-20 md:py-32 text-center overflow-hidden bg-cover bg-center min-h-screen" style="background-image: url('images/hero-bg.jpg');">
+        <div class="absolute inset-0 bg-black opacity-60"></div> <!-- Darkening overlay for text readability -->
+        <div class="container mx-auto relative z-10 flex flex-col items-center">
+            <!-- Profile picture size as specified by user -->
+            <img src="images/profile.jpg" alt="" class="w-64 h-64 rounded-full border-8 border-red-500 shadow-xl mb-6 object-cover transform transition duration-500 hover:scale-110 cursor-pointer clickable-image">
+            <h2 class="text-5xl md:text-6xl font-extrabold mb-4 animate-fade-in-down">
+                <span class="text-yellow-400">Kit Visaskamin</span>
+            </h2>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl leading-relaxed animate-fade-in-up whitespace-nowrap">
+                นักศึกษา Computer Science ชื่นชอบในการวิเคราะข้อมูลและการออกแบบ
+            </p>
+            <!-- Contact button with yellow accent -->
+            <a href="#contact" class="bg-yellow-500 text-red-900 px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:bg-yellow-400 transform hover:scale-105 transition duration-300">
+                ช่องทางการติดต่อ
+            </a>
+        </div>
+    </section>
+
+    <!-- About Me Section - Clean White Background -->
+    <section id="about" class="py-16 md:py-24 bg-white shadow-lg rounded-lg m-8 relative overflow-hidden bg-cover bg-center" style="background-image: url('images/about-me-bg.jpg');">
+        <div class="absolute inset-0 bg-black opacity-60"></div> <!-- Darkening overlay -->
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-white flex items-center justify-center">
+                <i class="fas fa-info-circle mr-3 text-yellow-400"></i>About Me
+            </h2>
+            <div class="flex flex-col md:flex-row items-center md:space-x-12">
+                <!-- Image size for about section as specified by user -->
+                <div class="md:w-1/2 lg:w-2/5 mb-8 md:mb-0">
+                    <img src="images/about-me.jpg" alt="" class="rounded-lg shadow-xl w-full h-auto object-cover transform transition duration-500 hover:scale-105 cursor-pointer clickable-image">
+                </div>
+                <div class="md:w-1/2 lg:w-3/5 text-xl leading-relaxed text-gray-200 p-6 rounded-lg bg-black bg-opacity-70">
+                    <p class="mb-4 font-bold">
+                        สวัสดีครับ! ผมชื่อ กิจ วิเศษคามิน (Kit Visaskamin) ปัจจุบันเป็นนักศึกษา Computer Science ที่มหาวิทยาลัยกรุงเทพ ผมมีความหลงใหลในเรื่องเทคโนโลยี และการแก้ไขปัญหาด้วยนวัตกรรมใหม่ๆ อยู่เสมอ และไม่เคยหยุดที่จะเรียนรู้สิ่งใหม่ๆ
+                    </p>
+                    <p class="mb-4 font-bold">
+                        นอกเหนือจากความสนใจด้านคอมพิวเตอร์แล้ว ยังให้ความสำคัญกับการค้นคว้าหาความรู้ในด้านอื่นๆ อย่างต่อเนื่อง โดยเฉพาะด้าน การเงิน การลงทุน การวิเคราะห์ตลาด และเศรษฐศาสตร์ รวมถึงทักษะด้าน การถ่ายภาพ และ การคิดคอนเทนต์ เพื่อสร้างสรรค์เนื้อหาที่น่าสนใจและมีคุณค่า นอกจากนี้ ยังมีประสบการณ์ในการบริหารจัดการในฐานะ ผู้จัดการร้านขายของฝาก ซึ่งช่วยพัฒนาทักษะการบริหารจัดการ การบริการลูกค้า และการแก้ปัญหาเฉพาะหน้า
+                    </p>
+                    <p class="font-bold">
+                        สั่งสมประสบการณ์จากการลงมือทำโปรเจกต์ต่างๆ และเข้าร่วมโครงการที่หลากหลาย ซึ่งช่วยให้พัฒนาทักษะการคิดเชิงวิเคราะห์ การทำงานเป็นทีม และความสามารถในการนำเสนอไอเดีย มีความพร้อมที่จะเรียนรู้สิ่งใหม่ๆ และนำความรู้ความสามารถไปประยุกต์ใช้ในการสร้างสรรค์นวัตกรรมและแก้ไขปัญหาต่างๆ
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section - Now a Responsive Grid -->
+    <section id="education" class="py-16 md:py-24 bg-gray-100 shadow-lg rounded-lg m-8">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-red-700 flex items-center justify-center">
+                <i class="fas fa-graduation-cap mr-3 text-yellow-400"></i>การศึกษา
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- University Card -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-105 transition duration-300 shadow-yellow-accent-hover">
+                    <img src="images/university.jpg" alt="" class="w-full h-48 object-cover rounded-md mb-4 cursor-pointer clickable-image">
+                    <div class="text-left">
+                        <h3 class="text-2xl font-bold mb-2 text-red-600">มหาวิทยาลัยกรุงเทพ</h3>
+                        <p class="text-lg text-gray-700 mb-2"><strong>ระดับ:</strong> อุดมศึกษา</p>
+                        <p class="text-base text-gray-600 text-sm"><strong>ช่วงปี:</strong> 2565 - ปัจจุบัน</p>
+                        <p class="text-lg text-gray-700 text-sm"><strong>คณะ:</strong> เทคโนโลยีสารสนเทศ</p>
+                        <p class="text-lg text-gray-700 text-sm mb-2"><strong>สาขา:</strong> วิทยาการคอมพิวเตอร์ (CS)</p>
+                        <p class="text-lg text-700 text-sm"><strong>เกรดเฉลี่ย (ปีการศึกษา 2567):</strong> 3.84</p>
+                    </div>
+                </div>
+                <!-- High School Card -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-105 transition duration-300 shadow-yellow-accent-hover">
+                    <img src="images/highschool.jpg" alt="" class="w-full h-48 object-cover rounded-md mb-4 cursor-pointer clickable-image">
+                    <div class="text-left">
+                        <h3 class="text-2xl font-bold mb-2 text-red-600">โรงเรียนพระแม่สกลสงเคราะห์ นนทบุรี</h3>
+                        <p class="text-lg text-gray-700 mb-2"><strong>ระดับ:</strong> มัธยมศึกษา (ม.1 - ม.6)</p>
+                        <p class="text-base text-gray-600 text-sm"><strong>ช่วงปี:</strong> 2559 - 2564</p>
+                        <p class="text-lg text-gray-700 text-sm mb-2"><strong>แผนการเรียน:</strong> ศิลป์จีน</p>
+                        <p class="text-lg text-gray-700 text-sm"><strong>เกรดเฉลี่ย:</strong> 3.84</p>
+                    </div>
+                </div>
+                <!-- Primary School Card -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-105 transition duration-300 shadow-yellow-accent-hover">
+                    <img src="images/primaryschool.jpg" alt="" class="w-full h-48 object-cover rounded-md mb-4 cursor-pointer clickable-image">
+                    <div class="text-left">
+                        <h3 class="text-2xl font-bold mb-2 text-red-600">โรงเรียนสากลศึกษาบางบัวทอง</h3>
+                        <p class="text-lg text-gray-700 mb-2"><strong>ระดับ:</strong> ประถมศึกษา (ป.1 - ป.6)</p>
+                        <p class="text-base text-gray-600 text-sm"><strong>ช่วงปี:</strong> 2553 - 2558</p>
+                        <p class="text-lg text-gray-700 text-sm"><strong>เกรดเฉลี่ย:</strong> 3.92</p>
+                    </div>
+                </div>
+                <!-- Add more education cards as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section - Light Gray Background -->
+    <section id="skills" class="py-16 md:py-24 bg-gray-100 shadow-lg rounded-lg m-8 relative overflow-hidden bg-cover bg-center" style="background-image: url('images/skill-bg.jpg');">
+        <div class="absolute inset-0 bg-black opacity-60"></div> <!-- Darkening overlay -->
+        <div class="container mx-auto px-4 relative z-10 text-white">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 flex items-center justify-center">
+                <i class="fas fa-tools mr-3 text-yellow-400"></i>ทักษะ
+            </h2>
+            <!-- Skills grid changed to 2x2 on large screens -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                <!-- Programming Languages -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 hover:shadow-xl transition duration-300 transform hover:translate-y-[-5px] shadow-yellow-accent-hover text-gray-800">
+                    <h3 class="text-3xl font-bold mb-4 text-red-600 flex items-center"><i class="fas fa-laptop-code mr-3 text-yellow-400"></i>ภาษาโปรแกรม</h3>
+                    <ul class="list-none space-y-2 text-lg text-gray-700">
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Python <span class="text-gray-500 text-base">(ถนัด, Data Analysis, Web Scraping)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Java <span class="text-gray-500 text-base">(ถนัด, Object-Oriented Programming)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>SQL <span class="text-gray-500 text-base">(ถนัด, Database Management)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>JavaScript <span class="text-gray-500 text-base">(พื้นฐาน, Frontend, Backend)</span></li>
+                    </ul>
+                </div>
+                <!-- Frameworks & Libraries -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 hover:shadow-xl transition duration-300 transform hover:translate-y-[-5px] shadow-yellow-accent-hover text-gray-800">
+                    <h3 class="text-3xl font-bold mb-4 text-red-600 flex items-center"><i class="fas fa-layer-group mr-3 text-yellow-400"></i>เฟรมเวิร์ค/ไลบรารี</h3>
+                    <ul class="list-none space-y-2 text-lg text-gray-700">
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Node.js / Express.js <span class="text-gray-500 text-base">(พื้นฐาน)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Pandas, NumPy <span class="text-gray-500 text-base">(Data Science)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Tailwind CSS <span class="text-gray-500 text-base">(Web Styling)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>React <span class="text-gray-500 text-base">(พื้นฐาน)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Spring Boot <span class="text-gray-500 text-base">(พื้นฐาน)</span></li>
+                    </ul>
+                </div>
+                <!-- Design & Multimedia (New Category) -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 hover:shadow-xl transition duration-300 transform hover:translate-y-[-5px] shadow-yellow-accent-hover text-gray-800">
+                    <h3 class="text-3xl font-bold mb-4 text-red-600 flex items-center"><i class="fas fa-palette mr-3 text-yellow-400"></i>การออกแบบและมัลติมีเดีย</h3>
+                    <ul class="list-none space-y-2 text-lg text-gray-700">
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Figma <span class="text-gray-500 text-base">(UI/UX Design)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Adobe Premiere Pro <span class="text-gray-500 text-base">(Video Editing)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Adobe Photoshop <span class="text-gray-500 text-base">(Photo Editing)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>การถ่ายภาพ <span class="text-gray-500 text-base">(Photography)</span></li>
+                    </ul>
+                </div>
+                <!-- Databases & Tools (Moved and combined) -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 hover:shadow-xl transition duration-300 transform hover:translate-y-[-5px] shadow-yellow-accent-hover text-gray-800">
+                    <h3 class="text-3xl font-bold mb-4 text-red-600 flex items-center"><i class="fas fa-database mr-3 text-yellow-400"></i>ฐานข้อมูล & เครื่องมือ</h3>
+                    <ul class="list-none space-y-2 text-lg text-gray-700">
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>MySQL, PostgreSQL <span class="text-gray-500 text-base">(Relational Databases)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>MongoDB <span class="text-gray-500 text-base">(NoSQL Database)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Git, GitHub <span class="text-gray-500 text-base">(Version Control)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>VS Code <span class="text-gray-500 text-base">(IDE)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>Linux <span class="text-gray-500 text-base">(Command Line)</span></li>
+                    </ul>
+                </div>
+                <!-- Languages - Moved to the bottom and centered -->
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500 hover:shadow-xl transition duration-300 transform hover:translate-y-[-5px] shadow-yellow-accent-hover col-span-1 md:col-span-2 lg:col-span-2 text-center text-gray-800">
+                    <h3 class="text-3xl font-bold mb-4 text-red-600 flex items-center justify-center"><i class="fas fa-language mr-3 text-yellow-400"></i>ภาษา</h3>
+                    <ul class="list-none space-y-2 text-lg text-gray-700">
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>ไทย <span class="text-gray-500 text-base">(ภาษาแม่)</span></li>
+                        <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i>อังกฤษ <span class="text-gray-500 text-base">(พื้นฐาน)</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activities Section - Now a Responsive Grid -->
+    <section id="activities" class="py-16 md:py-24 bg-white shadow-lg rounded-lg m-8">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-red-700 flex items-center justify-center">
+                <i class="fas fa-trophy mr-3 text-yellow-400"></i>ประสบการณ์การเข้าร่วมกิจกรรม
+            </h2>
+            <div class="space-y-12">
+                <!-- Activity Block 1 (Image Left, Text Right) -->
+                <div class="flex flex-col md:flex-row items-center md:space-x-8 p-6 bg-gray-50 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-[1.005] transition duration-300 shadow-yellow-accent-hover">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <img src="images/activity1.jpg" alt="" class="w-full h-auto object-cover rounded-lg shadow-xl clickable-image">
+                    </div>
+                    <div class="md:w-1/2 text-left">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600">รางวัลชนะเลิศในโครงการ Virtual Stock Market Challenge powered by Bolt Folio</h3>
+                        <p class="text-gray-700 mb-2"><strong>บทบาท:</strong> ผู้ชนะเลิศ</p>
+                        <p class="text-gray-600 text-sm mb-4"><strong>ช่วงเวลา:</strong> 28 พฤศจิกายน 2567</p>
+                        <p class="text-gray-700 leading-relaxed">
+                            เข้าร่วมและได้รับรางวัลชนะเลิศจากการแข่งขันจำลองการซื้อขายหุ้น ซึ่งจัดขึ้นโดย Bolt Folio โครงการนี้ช่วยให้ผมได้พัฒนาความเข้าใจเชิงลึกด้านการลงทุน การวิเคราะห์ตลาด และการตัดสินใจภายใต้สถานการณ์การซื้อขายจริง ซึ่งเป็นทักษะสำคัญที่สามารถนำไปประยุกต์ใช้ในโลกธุรกิจและเทคโนโลยีได้
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Activity Block 2 (Image Right, Text Left) -->
+                <div class="flex flex-col md:flex-row-reverse items-center md:space-x-8 md:space-x-reverse p-6 bg-gray-50 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-[1.005] transition duration-300 shadow-yellow-accent-hover">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <img src="images/activity2.jpg" alt="" class="w-full h-96 object-cover rounded-lg shadow-xl clickable-image">
+                    </div>
+                    <div class="md:w-1/2 text-left">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600">โครงการ BU X EDC Trainer Upskill ทักษะดิจิทัลสู่การเป็น Trainer</h3>
+                        <p class="text-gray-700 mb-2"><strong>บทบาท:</strong> ผู้เข้าร่วมอบรม</p>
+                        <p class="text-gray-600 text-sm mb-4"><strong>ช่วงเวลา:</strong> 7 พฤศจิกายน 2567</p>
+                        <p class="text-gray-700 leading-relaxed">
+                            เข้าร่วมการอบรมเพื่อพัฒนาและยกระดับทักษะดิจิทัล (Digital Life Skill) สู่การเป็น Trainer ในรั้วมหาวิทยาลัย ซึ่งเป็นความร่วมมือระหว่างมหาวิทยาลัยกรุงเทพและสำนักงานพัฒนาธุรกรรมทางอิเล็กทรอนิกส์ (ETDA) หลักสูตรนี้ช่วยเสริมสร้างความรู้ความเข้าใจด้านอัตลักษณ์ดิจิทัลและการใช้เทคโนโลยีดิจิทัลอย่างเหมาะสม รวมถึงทักษะการถ่ายทอดความรู้
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Activity Block 3 (Image Left, Text Right) -->
+                <div class="flex flex-col md:flex-row items-center md:space-x-8 p-6 bg-gray-50 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-[1.005] transition duration-300 shadow-yellow-accent-hover">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <img src="images/activity3.jpg" alt="" class="w-full h-auto object-cover rounded-lg shadow-xl clickable-image">
+                    </div>
+                    <div class="md:w-1/2 text-left">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600">โครงการ BU X Berkeley SkyDeck Fund Hackathon 2024</h3>
+                        <p class="text-gray-700 mb-2"><strong>บทบาท:</strong> ผู้เข้าร่วม</p>
+                        <p class="text-gray-600 text-sm mb-4"><strong>ช่วงเวลา:</strong> 18 เมษายน 2567</p>
+                        <p class="text-gray-700 leading-relaxed">
+                            เข้าร่วมการแข่งขัน Hackathon ระดับนานาชาติในหัวข้อ "Innovative Business Project" ซึ่งจัดโดยมหาวิทยาลัยกรุงเทพร่วมกับ Berkeley SkyDeck Fund จาก Silicon Valley โครงการนี้เปิดโอกาสให้ผมได้พัฒนาทักษะการคิดเชิงธุรกิจ การทำงานเป็นทีม และการนำเสนอไอเดียสตาร์ทอัพต่อผู้เชี่ยวชาญระดับโลก รวมถึงการเรียนรู้จากประสบการณ์จริงในการสร้างสรรค์นวัตกรรม
+                        </p>
+                    </div>
+                </div>
+                <!-- Add more activity blocks as needed, alternating flex-row and flex-row-reverse -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section - Clean White Background -->
+    <section id="projects" class="py-16 md:py-24 bg-white shadow-lg rounded-lg m-8 relative overflow-hidden bg-cover bg-center" style="background-image: url('images/project-bg.jpg');">
+        <div class="absolute inset-0 bg-black opacity-60"></div> <!-- Darkening overlay -->
+        <div class="container mx-auto px-4 relative z-10 text-white">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-red-700 flex items-center justify-center">
+                <i class="fas fa-project-diagram mr-3 text-yellow-400"></i>โปรเจกต์
+            </h2>
+            <!-- Horizontal scrolling container for project cards -->
+            <div class="flex overflow-x-auto pb-4 space-x-8 horizontal-scroll-container">
+                <!-- Project Card 1 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-lg border-t-4 border-red-500 border-gray-200 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 shadow-yellow-accent-hover flex-shrink-0 w-[28rem] md:w-2/3 lg:w-1/2">
+                    <img src="images/project1.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 clickable-image">
+                    <div class="text-left">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600">Cativerse: Tinder สำหรับน้องเหมียว</h3>
+                        <p class="text-gray-700 mb-4">
+                            Cativerse คือแอปพลิเคชันนวัตกรรมที่นำแนวคิดการจับคู่ยอดนิยมมาประยุกต์ใช้กับโลกของแมว ช่วยให้เจ้าของสามารถหาเพื่อนหรือคู่ให้กับน้องเหมียวได้อย่างสะดวก รวดเร็ว และปลอดภัย พร้อมฟังก์ชันแชทเพื่อเชื่อมสัมพันธ์ระหว่างเจ้าของแมว นอกจากนี้ยังรองรับการบันทึกประวัติและข้อมูลสุขภาพของแมว เพื่อส่งเสริมการดูแลสัตว์เลี้ยงอย่างเหมาะสม และป้องกันการขยายพันธุ์ที่ไม่พึงประสงค์ สร้างสังคมคุณภาพสำหรับแมวและเจ้าของในยุคดิจิทัล
+                        </p>
+                        <ul class="list-none text-sm text-gray-600 mb-4 space-y-1">
+                            <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i><strong>เทคโนโลยี:</strong> Flutter, Android Studio, Dart, Firebase</li>
+                            <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i><strong>บทบาท:</strong> Mobile Application Developer, Designer</li>
+                        </ul>
+                        <div class="flex justify-start space-x-4">
+                            <a href="https://github.com/your-github-username/project-1-repo" target="_blank" class="text-red-700 hover:text-red-900 font-medium flex items-center">
+                                <i class="fab fa-github mr-2 text-yellow-400"></i> GitHub Repo
+                            </a>
+                            <a href="#" target="_blank" class="text-red-700 hover:text-red-900 font-medium flex items-center">
+                                <i class="fas fa-external-link-alt mr-2 text-yellow-400"></i> ดูโปรเจกต์
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-lg border-t-4 border-red-500 border-gray-200 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 shadow-yellow-accent-hover flex-shrink-0 w-[28rem] md:w-2/3 lg:w-1/2">
+                    <img src="images/project2.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 clickable-image">
+                    <div class="text-left">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600">ระบบตรวจวัดสภาพแวดล้อมอัจฉริยะพร้อมการแจ้งเตือนแผ่นดินไหว</h3>
+                        <p class="text-gray-700 mb-4">
+                            โปรเจกต์นี้คือระบบ IoT อัจฉริยะที่ออกแบบมาเพื่อตรวจวัดคุณภาพอากาศ, อุณหภูมิ, และความชื้นในสภาพแวดล้อมแบบ Real-time พร้อมความสามารถในการตรวจจับการสั่นสะเทือนของแผ่นดินไหวได้อย่างแม่นยำ ข้อมูลทั้งหมดจะถูกประมวลผลด้วย ESP32 และแสดงผลผ่านจอ OLED/LCD รวมถึงส่งไปยังแอปพลิเคชัน Blynk บนมือถือ เพื่อให้คุณสามารถติดตามและรับการแจ้งเตือนสำคัญได้ทุกที่ทุกเวลา
+                        </p>
+                        <ul class="list-none text-sm text-gray-600 mb-4 space-y-1">
+                            <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i><strong>เทคโนโลยี:</strong> ESP32, เซนเซอร์ (คุณภาพอากาศ, อุณหภูมิ, ความชื้น, แผ่นดินไหว), OLED/LCD Display, Blynk (Mobile App & Cloud), Arduino IDE</li>
+                            <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i><strong>บทบาท:</strong> IoT System Developer / Embedded Systems Engineer</li>
+                        </ul>
+                        <div class="flex justify-start space-x-4">
+                            <a href="https://github.com/your-github-username/project-2-repo" target="_blank" class="text-red-700 hover:text-red-900 font-medium flex items-center">
+                                <i class="fab fa-github mr-2 text-yellow-400"></i> GitHub Repo
+                            </a>
+                            <a href="#" target="_blank" class="text-red-700 hover:text-red-900 font-medium flex items-center">
+                                <i class="fas fa-external-link-alt mr-2 text-yellow-400"></i> ดูโปรเจกต์
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="bg-gray-50 p-6 rounded-lg shadow-lg border-t-4 border-red-500 border-gray-200 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 shadow-yellow-accent-hover flex-shrink-0 w-[28rem] md:w-2/3 lg:w-1/2">
+                    <img src="images/project3.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 clickable-image">
+                    <div class="text-left">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600">Match Your Life</h3>
+                        <p class="text-gray-700 mb-4">
+                            โปรเจกต์นี้คือการออกแบบแอปพลิเคชันประกันชีวิตที่เริ่มต้นจากการวิเคราะห์แนวคิดหลักของธุรกิจประกันภัย และทำความเข้าใจความต้องการของผู้ใช้งานอย่างลึกซึ้ง เพื่อให้แอปพลิเคชันสามารถตอบโจทย์ทั้งด้านการจับคู่แผนประกันที่เหมาะสม การแลกเปลี่ยนข้อมูล และการสร้างความสัมพันธ์ที่ดีระหว่างผู้ใช้และบริษัทประกันภัยได้อย่างสะดวก รวดเร็ว และปลอดภัย ผลลัพธ์คือการออกแบบ UI/UX ที่ใช้งานง่ายและดึงดูดใจผ่าน Figma
+                        </p>
+                        <ul class="list-none text-sm text-gray-600 mb-4 space-y-1">
+                            <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i><strong>เทคโนโลยี:</strong> Figma (UI/UX Design)</li>
+                            <li><i class="fas fa-check-circle text-yellow-500 mr-2"></i><strong>บทบาท:</strong> UI/UX Designer, Business Analyst</li>
+                        </ul>
+                        <div class="flex justify-start space-x-4">
+                            <a href="https://github.com/your-github-username/project-3-repo" target="_blank" class="text-red-700 hover:text-red-900 font-medium flex items-center">
+                                <i class="fab fa-github mr-2 text-yellow-400"></i> GitHub Repo
+                            </a>
+                            <a href="#" target="_blank" class="text-red-700 hover:text-red-900 font-medium flex items-center">
+                                <i class="fas fa-external-link-alt mr-2 text-yellow-400"></i> ดูโปรเจกต์
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section - Background changed to light gray -->
+    <section id="certificates" class="py-16 md:py-24 bg-gray-100 shadow-lg rounded-lg m-8">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-red-700 flex items-center justify-center">
+                <i class="fas fa-award mr-3 text-yellow-400"></i>ใบประกาศนียบัตร
+            </h2>
+            <!-- Certificates grid layout, similar to projects -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Certificate Card 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-xl border-t-4 border-red-500 border-gray-200 transform hover:scale-105 transition duration-300 shadow-yellow-accent-hover">
+                    <img src="images/certificate1.jpg" alt="" class="w-full h-auto object-cover rounded-md mb-4 clickable-image">
+                    <h3 class="text-xl font-semibold mb-2 text-red-600">Customer Service with Python: Build a Chatbot using ChatGPT</h3>
+                    <p class="text-gray-700 text-sm mb-2"><strong>ออกโดย:</strong> Coursera</p>
+                    <p class="text-gray-600 text-sm"><strong>วันที่:</strong> 11 กุมภาพันธ์ 2568</p>
+                    <a href="#" target="_blank" class="text-red-600 hover:underline text-sm mt-3 inline-block flex items-center"><i class="fas fa-external-link-alt mr-2 text-yellow-400"></i>ดูใบประกาศ</a>
+                </div>
+                <!-- Certificate Card 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-xl border-t-4 border-red-500 border-gray-200 transform hover:scale-105 transition duration-300 shadow-yellow-accent-hover">
+                    <img src="images/certificate2.jpg" alt="" class="w-full h-auto object-cover rounded-md mb-4 clickable-image">
+                    <h3 class="text-xl font-semibold mb-2 text-red-600">ความมั่นคงปลอดภัยไซเบอร์ระดับพื้นฐาน</h3>
+                    <p class="text-gray-700 text-sm mb-2"><strong>ออกโดย:</strong> สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</p>
+                    <p class="text-gray-600 text-sm"><strong>วันที่:</strong> 7 ธันวาคม 2567</p>
+                    <a href="#" target="_blank" class="text-red-600 hover:underline text-sm mt-3 inline-block flex items-center"><i class="fas fa-external-link-alt mr-2 text-yellow-400"></i>ดูใบประกาศ</a>
+                </div>
+                <!-- Certificate Card 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-xl border-t-4 border-red-500 border-gray-200 transform hover:scale-105 transition duration-300 shadow-yellow-accent-hover">
+                    <img src="images/certificate3.jpg" alt="" class="w-full h-auto object-cover rounded-md mb-4 clickable-image">
+                    <h3 class="text-xl font-semibold mb-2 text-red-600">ความมั่นคงปลอดภัยไซเบอร์ระดับเชี่ยวชาญ</h3>
+                    <p class="text-gray-700 text-sm mb-2"><strong>ออกโดย:</strong> สำนักงานคณะกรรมการการรักษาความมั่นคงปลอดภัยไซเบอร์แห่งชาติ (สกมช.)</p>
+                    <p class="text-gray-600 text-sm"><strong>วันที่:</strong> 7 ธันวาคม 2567</p>
+                    <a href="#" target="_blank" class="text-red-600 hover:underline text-sm mt-3 inline-block flex items-center"><i class="fas fa-external-link-alt mr-2 text-yellow-400"></i>ดูใบประกาศ</a>
+                </div>
+                <!-- Add more certificate cards as needed -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Gallery Section - Single Image Card Structure -->
+    <section id="gallery" class="py-16 md:py-24 bg-gray-50 shadow-lg rounded-lg m-8">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-red-700 flex items-center justify-center">
+                <i class="fas fa-images mr-3 text-yellow-400"></i>แกลเลอรีรูปภาพ
+            </h2>
+            <div id="gallery-card-container" class="relative">
+                <img id="gallery-main-image" src="images/gallery1.jpg" alt="" class="clickable-image">
+
+                <!-- Navigation Buttons for Gallery Card -->
+                <button id="prevGalleryBtn" class="gallery-nav-button left-0">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button id="nextGalleryBtn" class="gallery-nav-button right-0">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section - Clean White Background -->
+    <section id="contact" class="py-16 md:py-24 bg-gray-50 shadow-lg rounded-lg m-8">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-red-700 flex items-center justify-center">
+                <i class="fas fa-envelope mr-3 text-yellow-400"></i>ช่องทางการติดต่อ
+            </h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto leading-relaxed text-gray-700">
+                หากคุณมีคำถาม หรือต้องการพูดคุยเพิ่มเติม สามารถติดต่อผมได้ตามช่องทางด้านล่างนี้ครับ
+            </p>
+            <div class="flex flex-col items-center space-y-6 text-xl mb-12">
+                <p class="flex items-center justify-center flex-nowrap">
+                    <strong class="text-red-600"><i class="fas fa-at mr-2 text-yellow-400"></i>อีเมล:</strong>
+                    <a href="mailto:kit.kampol.v@gmail.com" class="text-red-700 hover:underline ml-2 whitespace-nowrap">kit.kampol.v@gmail.com</a>
+                </p>
+                <p class="flex items-center justify-center flex-nowrap">
+                    <strong class="text-red-600"><i class="fas fa-phone mr-2 text-yellow-400"></i>โทรศัพท์:</strong>
+                    <a href="tel:0950275357" class="text-red-700 hover:underline ml-2 underline whitespace-nowrap">0950275357</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section - Dark Gray Background -->
+    <footer class="bg-gray-800 text-white p-6 text-center mt-8 rounded-t-lg">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Kit Visaskamin. สงวนลิขสิทธิ์</p>
+        </div>
+    </footer>
+
+    <!-- The Modal -->
+    <div id="imageModal" class="modal">
+        <!-- Close button -->
+        <span class="modal-close" id="closeModal">&times;</span>
+        <!-- Previous button -->
+        <button id="prevButton" class="modal-nav-button"><i class="fas fa-chevron-left"></i></button>
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="modalImage">
+        <!-- Next button -->
+        <button id="nextButton" class="modal-nav-button"><i class="fas fa-chevron-right"></i></button>
+        <!-- Modal Caption (Image Text) -->
+        <div id="modalCaption" class="modal-caption"></div>
+    </div>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active');
+            // Toggle body scroll lock
+            document.body.classList.toggle('no-scroll');
+        });
+
+        // Close mobile menu when a link is clicked
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobile-menu');
+                mobileMenu.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            });
+        });
+
+        // JavaScript for smooth scrolling (existing functionality)
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // --- Image Modal Functionality ---
+        const modal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+        const modalCaption = document.getElementById("modalCaption");
+        const closeModal = document.getElementById("closeModal");
+        const prevButton = document.getElementById("prevButton");
+        const nextButton = document.getElementById("nextButton");
+
+        let allClickableImages = []; // Stores all image elements that can be opened in the modal
+        let currentImageIndex = 0; // Index of the currently displayed image in the modal
+
+        // Function to show a specific image in the modal
+        function showImage(index) {
+            if (index >= 0 && index < allClickableImages.length) {
+                currentImageIndex = index;
+                modalImage.src = allClickableImages[currentImageIndex].src;
+                modalCaption.innerHTML = allClickableImages[currentImageIndex].alt;
+            }
+        }
+
+        // Function to initialize event listeners for all clickable images
+        function initializeClickableImages() {
+            // Re-query all clickable images on the page
+            allClickableImages = document.querySelectorAll(".clickable-image");
+            allClickableImages.forEach((img, index) => {
+                img.setAttribute('data-global-index', index); // Assign a unique global index
+                img.onclick = function() { // Use onclick to prevent multiple listeners if re-initialized
+                    modal.style.display = "flex";
+                    showImage(parseInt(this.getAttribute('data-global-index')));
+                    document.body.classList.add('no-scroll');
+                };
+            });
+        }
+
+        // Event listeners for modal navigation buttons
+        prevButton.addEventListener("click", function() {
+            showImage((currentImageIndex - 1 + allClickableImages.length) % allClickableImages.length);
+        });
+
+        nextButton.addEventListener("click", function() {
+            showImage((currentImageIndex + 1) % allClickableImages.length);
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+            document.body.classList.remove('no-scroll');
+        }
+
+        // When the user clicks anywhere outside of the image, close it
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+                document.body.classList.remove('no-scroll');
+            }
+        });
+
+        // Close modal with Escape key and navigate with arrow keys
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && modal.style.display === "flex") {
+                modal.style.display = "none";
+                document.body.classList.remove('no-scroll');
+            }
+            if (modal.style.display === "flex") {
+                if (event.key === "ArrowLeft") {
+                    showImage((currentImageIndex - 1 + allClickableImages.length) % allClickableImages.length);
+                } else if (event.key === "ArrowRight") {
+                    showImage((currentImageIndex + 1) % allClickableImages.length);
+                }
+            }
+        });
+
+        // --- Gallery Card Specific Functionality ---
+        const galleryMainImage = document.getElementById("gallery-main-image");
+        const prevGalleryBtn = document.getElementById("prevGalleryBtn");
+        const nextGalleryBtn = document.getElementById("nextGalleryBtn");
+
+        // Array of gallery image data (src, alt)
+        const galleryImagesData = [
+            { src: "images/gallery1.jpg", alt: "" },
+            { src: "images/gallery2.jpg", alt: "" },
+            { src: "images/gallery3.jpg", alt: "" },
+            { src: "images/gallery4.jpg", alt: "" },
+            { src: "images/gallery5.jpg", alt: "" },
+            // Add more gallery images here
+        ];
+
+        let currentGalleryImageIndex = 0; // Index of the currently displayed image in the gallery card
+
+        // Function to update the gallery card image
+        function updateGalleryImage() {
+            galleryMainImage.src = galleryImagesData[currentGalleryImageIndex].src;
+            galleryMainImage.alt = galleryImagesData[currentGalleryImageIndex].alt;
+            // Re-initialize clickable images to ensure the new galleryMainImage is included
+            initializeClickableImages();
+        }
+
+        // Navigation functions for the gallery card
+        prevGalleryBtn.addEventListener("click", function() {
+            currentGalleryImageIndex = (currentGalleryImageIndex - 1 + galleryImagesData.length) % galleryImagesData.length;
+            updateGalleryImage();
+        });
+
+        nextGalleryBtn.addEventListener("click", function() {
+            currentGalleryImageIndex = (currentGalleryImageIndex + 1) % galleryImagesData.length;
+            updateGalleryImage();
+        });
+
+        // Initial setup when the window loads
+        window.onload = function() {
+            updateGalleryImage(); // Display the first image in the gallery card
+            initializeClickableImages(); // Initialize all clickable images on the page
+        };
+    </script>
+</body>
+</html>
