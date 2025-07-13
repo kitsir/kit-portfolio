@@ -613,9 +613,10 @@
     </section>
 
     <!-- Image Gallery Section - Single Image Card Structure -->
-    <section id="gallery" class="py-16 md:py-24 bg-gray-50 shadow-lg rounded-lg m-8">
-        <div class="container mx-auto px-4">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-red-700 flex items-center justify-center">
+    <section id="gallery" class="py-16 md:py-24 bg-gray-50 shadow-lg rounded-lg m-8 relative overflow-hidden bg-cover bg-center" style="background-image: url('images/gallery-bg.jpg');">
+        <div class="absolute inset-0 bg-black opacity-60"></div> <!-- Darkening overlay -->
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-red-700 flex items-center justify-center text-white">
                 <i class="fas fa-images mr-3 text-yellow-400"></i>แกลเลอรี
             </h2>
             <div id="gallery-card-container" class="relative">
@@ -639,7 +640,7 @@
                 <i class="fas fa-envelope mr-3 text-yellow-400"></i>ช่องทางการติดต่อ
             </h2>
             <p class="text-lg mb-8 max-w-2xl mx-auto leading-relaxed text-gray-700">
-                หากมีคำถามหรือต้องการพูดคุยเพิ่มเติม สามารถติดต่อได้ตามช่องทางด้านล่างนี้เลยครับ
+                หากมีคำถามหรือต้องการพูดคุยเพิ่มเติม สามารถติดต่อได้ตามช่องทางด้านล่างนี้ครับ
             </p>
             <div class="flex flex-col items-center space-y-6 text-xl mb-12">
                 <p class="flex items-center justify-center flex-nowrap">
@@ -679,9 +680,12 @@
         // JavaScript for mobile menu toggle
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('active');
+            mobileMenu.classList.toggle('hidden');
             // Toggle body scroll lock
-            document.body.classList.toggle('no-scroll');
+            document.body.classList.remove('no-scroll'); // Ensure scroll is enabled when menu is closed
+            if (mobileMenu.classList.contains('active')) {
+                document.body.classList.add('no-scroll');
+            }
         });
 
         // Close mobile menu when a link is clicked
