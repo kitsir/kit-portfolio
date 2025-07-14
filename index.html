@@ -188,7 +188,6 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3); /* Soft shadow for the card */
-            /* Removed border: 4px solid #ef4444; */
         }
 
         #gallery-main-image {
@@ -197,7 +196,7 @@
             max-height: 700px; /* Increased max height to prevent excessively tall images */
             object-fit: contain; /* Ensure the entire image is visible within its container */
             border-radius: 8px; /* Slightly smaller border-radius for the image inside */
-            /* Removed cursor: pointer; */ /* Removed cursor pointer as it's no longer clickable */
+            cursor: pointer; /* Added cursor pointer for clickable image */
             transition: opacity 0.3s ease-in-out; /* Smooth transition for image change */
         }
 
@@ -274,8 +273,9 @@
                 <li><a href="#certificates" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-award mr-2 text-yellow-400"></i>ใบประกาศ</a></li>
                 <li><a href="#gallery" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-images mr-2 text-yellow-400"></i>แกลเลอรี</a></li>
                 <li><a href="#contact" class="block py-2 px-3 hover:bg-red-700 rounded-md transition duration-300 flex items-center"><i class="fas fa-envelope mr-2 text-yellow-400"></i>ติดต่อ</a></li>
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <!-- Hero Section - Bold Red with original background -->
@@ -467,25 +467,10 @@
                     </div>
                 </div>
 
-                <!-- Activity Block 3 (Image Left, Text Right) -->
+                <!-- Activity Block 3 (OIC InsurTech Award 2025 - Moved here) -->
                 <div class="flex flex-col md:flex-row items-center md:space-x-8 p-6 bg-gray-50 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-[1.005] transition duration-300 shadow-yellow-accent-hover">
                     <div class="md:w-1/2 mb-6 md:mb-0">
-                        <img src="images/activity3.jpg" alt="" class="w-full h-auto object-cover rounded-lg shadow-xl clickable-image">
-                    </div>
-                    <div class="md:w-1/2 text-left">
-                        <h3 class="text-2xl font-semibold mb-3 text-red-600">โครงการ BU X Berkeley SkyDeck Fund Hackathon 2024</h3>
-                        <p class="text-gray-700 mb-2"><strong>บทบาท:</strong> ผู้เข้าร่วม</p>
-                        <p class="text-gray-600 text-sm mb-4"><strong>ช่วงเวลา:</strong> 18 เมษายน 2567</p>
-                        <p class="text-gray-700 leading-relaxed">
-                            เข้าร่วมการแข่งขัน Hackathon ระดับนานาชาติในหัวข้อ "Innovative Business Project" ซึ่งจัดโดยมหาวิทยาลัยกรุงเทพร่วมกับ Berkeley SkyDeck Fund จาก Silicon Valley โครงการนี้เปิดโอกาสให้ผมได้พัฒนาทักษะการคิดเชิงธุรกิจ การทำงานเป็นทีม และการนำเสนอไอเดียสตาร์ทอัพต่อผู้เชี่ยวชาญระดับโลก รวมถึงการเรียนรู้จากประสบการณ์จริงในการสร้างสรรค์นวัตกรรม
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Activity Block 4 (Updated to OIC InsurTech Award 2025) -->
-                <div class="flex flex-col md:flex-row-reverse items-center md:space-x-8 md:space-x-reverse p-6 bg-gray-50 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-[1.005] transition duration-300 shadow-yellow-accent-hover">
-                    <div class="md:w-1/2 mb-6 md:mb-0">
-                        <img src="images/activity4.jpg" alt="" class="w-full h-96 object-cover rounded-lg shadow-xl clickable-image">
+                        <img src="images/activity4.jpg" alt="" class="w-full h-auto object-cover rounded-lg shadow-xl clickable-image">
                     </div>
                     <div class="md:w-1/2 text-left">
                         <h3 class="text-2xl font-semibold mb-3 text-red-600">OIC InsurTech Award 2025</h3>
@@ -496,7 +481,25 @@
                         </p>
                     </div>
                 </div>
+                <!-- End of Activity Block 3 -->
+
+                <!-- Activity Block 4 (BU MINI HACKATHON 2025 - Moved here) -->
+                <div class="flex flex-col md:flex-row-reverse items-center md:space-x-8 md:space-x-reverse p-6 bg-gray-50 rounded-lg shadow-md border-t-4 border-red-500 border-gray-200 transform hover:scale-[1.005] transition duration-300 shadow-yellow-accent-hover">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <img src="images/activity5.jpg" alt="" class="w-full h-96 object-cover rounded-lg shadow-xl clickable-image">
+                    </div>
+                    <div class="md:w-1/2 text-left">
+                        <h3 class="text-2xl font-semibold mb-3 text-red-600">BU MINI HACKATHON 2025</h3>
+                        <p class="text-gray-700 mb-2"><strong>บทบาท:</strong> ผู้เข้าร่วม</p>
+                        <p class="text-gray-600 text-sm mb-4"><strong>ช่วงเวลา:</strong> พ.ศ. 2568</p>
+                        <p class="text-gray-700 leading-relaxed">
+                            กิจกรรมนี้มุ่งเน้นการพัฒนาโซลูชันนวัตกรรมในระยะเวลาอันสั้นเพื่อแก้ไขปัญหาที่ท้าทายในโลกปัจจุบัน ผมได้เข้าร่วมในการพัฒนาแนวคิดและสร้างต้นแบบอย่างรวดเร็ว ซึ่งช่วยเสริมสร้างทักษะการทำงานภายใต้แรงกดดัน การคิดเชิงวิเคราะห์ และการทำงานร่วมกับทีม
+                        </p>
+                    </div>
+                </div>
                 <!-- End of Activity Block 4 -->
+
+                <!-- Original Activity Block 3 (BU X Berkeley SkyDeck Fund Hackathon 2024) - REMOVED -->
 
             </div>
         </div>
@@ -513,7 +516,8 @@
             <div class="flex overflow-x-auto pb-4 space-x-8 horizontal-scroll-container">
                 <!-- Project Card 1: Cativerse -->
                 <div class="bg-gray-50 p-6 rounded-lg shadow-lg border-t-4 border-red-500 border-gray-200 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 shadow-yellow-accent-hover flex-shrink-0 w-[28rem] md:w-2/3 lg:w-1/2">
-                    <img src="images/project1.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 clickable-image">
+                    <!-- Changed this image to directly call openProjectGallery -->
+                    <img src="images/project1.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 cursor-pointer" onclick="openProjectGallery('cativerse')">
                     <div class="text-left">
                         <h3 class="text-2xl font-semibold mb-3 text-red-600">Cativerse: Tinder สำหรับน้องเหมียว</h3>
                         <p class="text-gray-700 mb-4">
@@ -527,7 +531,7 @@
                             <a href="https://github.com/kitsir/cativerse.git" target="_blank" class="text-red-700 hover:text-red-900 font-medium flex items-center">
                                 <i class="fab fa-github mr-2 text-yellow-400"></i> GitHub Repo
                             </a>
-                            <!-- Changed to call JavaScript function -->
+                            <!-- This link also calls openProjectGallery -->
                             <a href="javascript:void(0);" onclick="openProjectGallery('cativerse')" class="text-red-700 hover:text-red-900 font-medium flex items-center">
                                 <i class="fas fa-images mr-2 text-yellow-400"></i> ดูรูปภาพโปรเจกต์
                             </a>
@@ -537,7 +541,8 @@
 
                 <!-- Project Card 2 -->
                 <div class="bg-gray-50 p-6 rounded-lg shadow-lg border-t-4 border-red-500 border-gray-200 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 shadow-yellow-accent-hover flex-shrink-0 w-[28rem] md:w-2/3 lg:w-1/2">
-                    <img src="images/project2.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 clickable-image">
+                    <!-- Changed this image to directly call openProjectGallery -->
+                    <img src="images/project2.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 cursor-pointer" onclick="openProjectGallery('project2')">
                     <div class="text-left">
                         <h3 class="text-2xl font-semibold mb-3 text-red-600">ระบบตรวจวัดสภาพแวดล้อมอัจฉริยะพร้อมการแจ้งเตือนแผ่นดินไหว</h3>
                         <p class="text-gray-700 mb-4">
@@ -558,7 +563,8 @@
 
                 <!-- Project Card 3 -->
                 <div class="bg-gray-50 p-6 rounded-lg shadow-lg border-t-4 border-red-500 border-gray-200 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 shadow-yellow-accent-hover flex-shrink-0 w-[28rem] md:w-2/3 lg:w-1/2">
-                    <img src="images/project3.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 clickable-image">
+                    <!-- Changed this image to directly call openProjectGallery -->
+                    <img src="images/project3.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 cursor-pointer" onclick="openProjectGallery('project3')">
                     <div class="text-left">
                         <h3 class="text-2xl font-semibold mb-3 text-red-600">Match Your Life</h3>
                         <p class="text-gray-700 mb-4">
@@ -579,7 +585,8 @@
 
                 <!-- Project Card 4: New Power BI Project -->
                 <div class="bg-gray-50 p-6 rounded-lg shadow-lg border-t-4 border-red-500 border-gray-200 hover:shadow-xl transform hover:-translate-y-1 transition duration-300 shadow-yellow-accent-hover flex-shrink-0 w-[28rem] md:w-2/3 lg:w-1/2">
-                    <img src="images/project4.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 clickable-image">
+                    <!-- Changed this image to directly call openProjectGallery -->
+                    <img src="images/project4.jpg" alt="" class="w-full h-96 object-cover rounded-md mb-4 cursor-pointer" onclick="openProjectGallery('project4')">
                     <div class="text-left">
                         <h3 class="text-2xl font-semibold mb-3 text-red-600">การวิเคราะห์สินค้ากลุ่มสุขภาพบน Lazada ด้วย Power BI</h3>
                         <p class="text-gray-700 mb-4">
@@ -647,7 +654,7 @@
                 <i class="fas fa-images mr-3 text-yellow-400"></i>แกลเลอรีรูปภาพ
             </h2>
             <div id="gallery-card-container" class="relative">
-                <img id="gallery-main-image" src="images/gallery1.jpg" alt="">
+                <img id="gallery-main-image" src="images/gallery1.jpg" alt="" class="cursor-pointer clickable-image">
 
                 <!-- Navigation Buttons for Gallery Card -->
                 <button id="prevGalleryBtn" class="gallery-nav-button left-0">
@@ -821,22 +828,26 @@
             }
         });
 
-        // --- General Clickable Images (for profile, education, activity, project main images, and certificates) ---
+        // --- General Clickable Images (for profile, education, activity, and certificates) ---
         // This function now prepares a single-image array to pass to showModalImage
         function initializeClickableImages() {
-            const general clickableImages = document.querySelectorAll(".clickable-image");
-            generalClickableImages.forEach((img) => { // Removed index as it's not used here
-                // Ensure gallery-main-image is not clickable
-                if (img.id === 'gallery-main-image') {
-                    img.onclick = null; // Remove click handler
-                    img.style.cursor = 'default'; // Change cursor back to default
-                } else {
-                    img.onclick = function() {
-                        // Create a temporary array for this single image
-                        const tempImageArray = [{ src: this.src, alt: this.alt }];
-                        showModalImage(tempImageArray, 0); // Show this single image
-                    };
-                }
+            // Select all images that should open themselves in the modal
+            const singleClickableImages = document.querySelectorAll(
+                '#hero .clickable-image, ' +
+                '#about .clickable-image, ' +
+                '#education .clickable-image, ' +
+                '#activities .clickable-image, ' +
+                '#certificates .clickable-image, ' +
+                '#gallery-main-image' // The main gallery image is also a single clickable image
+            );
+
+            singleClickableImages.forEach((img) => {
+                img.onclick = function() {
+                    // Create a temporary array for this single image
+                    const tempImageArray = [{ src: this.src, alt: this.alt }];
+                    showModalImage(tempImageArray, 0); // Show this single image
+                };
+                img.style.cursor = 'pointer'; // Ensure cursor is pointer
             });
         }
 
@@ -849,7 +860,6 @@
                 { src: "images/cativerse_ss3.jpg", alt: "" }, // หน้าจอแชท
                 { src: "images/cativerse_ss4.jpg", alt: "" }, // หน้าจอจับคู่
                 { src: "images/cativerse_ss5.jpg", alt: "" }  // หน้าจอข้อมูลสุขภาพ
-                // Removed cativerse_ss6.jpg, cativerse_ss7.jpg, cativerse_ss8.jpg as per request
             ],
             project2: [
                 { src: "images/project2_ss1.jpg", alt: "" }, // ระบบตรวจวัดสภาพแวดล้อม - ภาพรวม
@@ -898,7 +908,6 @@
         function updateGalleryImage() {
             galleryMainImage.src = galleryImagesData[currentGalleryImageIndex].src;
             galleryMainImage.alt = galleryImagesData[currentGalleryImageIndex].alt;
-            // No need to call initializeClickableImages here as galleryMainImage is not clickable
         }
 
         // Navigation functions for the gallery card
